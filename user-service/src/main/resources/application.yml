@@ -1,0 +1,19 @@
+server:
+  port: 8083
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/user-service'
+    username: postgres
+    password: _one_look1
+    driver-class-name: org.postgresql.Driver
+  application:
+    name: USER-SERVICE
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: 'http://localhost:8761/eureka'
+  instance:
+    hostname: localhost

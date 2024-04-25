@@ -1,0 +1,30 @@
+server:
+  port: 8082
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/order_service'
+    username: postgres
+    password: _one_look1
+    driver-class-name: org.postgresql.Driver
+  application:
+    name: ORDER-SERVICE
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: 'http://localhost:8761/eureka'
+  instance:
+    hostname: localhost
+
+openapi:
+  service:
+    title: order-service doc
+    version: 1.0.0
+    url: http://localhost:9191 #api gateway url
+springdoc:
+  api-docs:
+    path: /order-service/v3/api-docs
+  swagger-ui:
+    path: /order-service/swagger-ui.html
