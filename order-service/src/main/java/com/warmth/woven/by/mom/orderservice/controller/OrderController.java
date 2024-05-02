@@ -29,7 +29,7 @@ public class OrderController {
     return orderService.placeOrder(orderRequest);
   }
 
-  @GetMapping("/{userId}")
+  @GetMapping("/user/{userId}")
   @ResponseStatus(HttpStatus.OK)
   public List<OrderResponse> getOrdersByUserId(@PathVariable String userId) {
     return orderService.getOrdersByUserId(userId);

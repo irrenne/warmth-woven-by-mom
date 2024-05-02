@@ -1,4 +1,4 @@
-package com.warmth.woven.by.mom.userservice.dto;
+package com.warmth.woven.by.mom.authenticationservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

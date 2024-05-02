@@ -1,4 +1,4 @@
-package com.warmth.woven.by.mom.userservice.dto;
+package com.warmth.woven.by.mom.authenticationservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponse {
+public class UserRequest {
 
   private String id;
   private String name;

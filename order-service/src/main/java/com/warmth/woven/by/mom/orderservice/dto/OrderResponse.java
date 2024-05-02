@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class OrderResponse {
 
   private Long id;
-  private String productId;
+  private Long productId;
   private BigDecimal price;
   private Boolean withShipping;
 }

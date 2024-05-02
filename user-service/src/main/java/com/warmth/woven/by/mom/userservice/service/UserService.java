@@ -6,8 +6,10 @@ import com.warmth.woven.by.mom.userservice.model.User;
 import com.warmth.woven.by.mom.userservice.repository.UserRepository;
 import com.warmth.woven.by.mom.userservice.util.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -32,6 +34,9 @@ public class UserService {
       throw new RuntimeException("User with this email already exists");
     }
     User savedUser = userRepository.save(user);
+    log.info(
+        String.format("User created with id '%s' and role '%s'", user.getId(), user.getRole())
+    );
     return UserMapper.INSTANCE.mapUserToUserResponse(savedUser);
   }
 

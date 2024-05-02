@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/users")
+@RequestMapping("/api/users")
+@RestController
 @RequiredArgsConstructor
 public class UserController {
 
@@ -22,7 +24,7 @@ public class UserController {
     return userService.getUserById(id);
   }
 
-  @GetMapping("/{email}")
+  @GetMapping("/email/{email}")
   public UserResponse getUserByEmail(@PathVariable String email) {
     return userService.getUserByEmail(email);
   }

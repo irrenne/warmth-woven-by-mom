@@ -35,11 +35,20 @@ spring:
         - id: USER-SERVICE
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/api/user/**
+            - Path=/api/users/**
           filters:
             - name: CircuitBreaker
               args:
                 name: USER-SERVICE
+                fallbackuri: forward:/userServiceFallBack
+        - id: AUTH-SERVICE
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: AUTH-SERVICE
                 fallbackuri: forward:/userServiceFallBack
       globalcors:
         corsConfigurations:
@@ -51,3 +60,6 @@ spring:
               - POST
               - DELETE
               - PUT
+
+jwt:
+  secret: MiAVzqUXy5Tfr1kVIGpPMiAVzqUXy5Tfr1kVIGpP
