@@ -3,6 +3,7 @@ package com.warmth.woven.by.mom.productservice.controller;
 import com.warmth.woven.by.mom.productservice.dto.ProductRequest;
 import com.warmth.woven.by.mom.productservice.dto.ProductResponse;
 import com.warmth.woven.by.mom.productservice.service.ProductService;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,16 +37,23 @@ public class ProductController {
     return productService.getProductById(id);
   }
 
+  @GetMapping("/price/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public BigDecimal getProductPriceById(@PathVariable Long id) {
+    ProductResponse productById = productService.getProductById(id);
+    return productById.getPrice();
+  }
+
   @GetMapping("/{productId}/isInStock")
-  public Boolean checkStock(@PathVariable Long productId) {
-    var product = productService.getProductById(productId);
-    return product != null && product.getInStock();
+  public Boolean checkStock(@PathVariable Long productId, @RequestParam Integer quantity) {
+    return productService.getProductInStock(productId, quantity);
   }
 
   @PutMapping("/update/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public ProductResponse setProductNotInStock(@PathVariable Long id) {
-    return productService.decreaseProductAmount(id);
+  public ProductResponse setProductNotInStock(@PathVariable Long id,
+      @RequestParam Integer quantity) {
+    return productService.decreaseProductAmount(id, quantity);
   }
 
   @GetMapping

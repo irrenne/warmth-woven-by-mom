@@ -8,7 +8,6 @@ import com.warmth.woven.by.mom.productservice.util.mapper.ProductMapper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,10 +36,16 @@ public class ProductService {
     return ProductMapper.INSTANCE.mapProductToProductResponse(product);
   }
 
-  public ProductResponse decreaseProductAmount(Long id) {
+  public Boolean getProductInStock(Long id, Integer quantity) {
+    var product = productRepository.findById(id)
+        .orElse(null);
+    return product.getAmount() >= quantity;
+  }
+
+  public ProductResponse decreaseProductAmount(Long id, Integer quantity) {
     Product product = productRepository.findById(id).orElseThrow();
-    if (product.getAmount() > 0) {
-      product.setAmount(product.getAmount() - 1);
+    if (product.getAmount() >= quantity) {
+      product.setAmount(product.getAmount() - quantity);
     }
     Product savedProduct = productRepository.save(product);
     log.info("Product {} amount decreased to {}", savedProduct.getId(), savedProduct.getAmount());
@@ -51,7 +56,6 @@ public class ProductService {
     List<Product> products = productRepository.findAll();
     return ProductMapper.INSTANCE.mapProductsToProductsResponse(products);
   }
-
 
   public List<ProductResponse> getRandomProducts(Integer amount) {
     List<Product> allProducts = productRepository.findAllByAmountGreaterThan(0);
@@ -76,15 +80,19 @@ public class ProductService {
 
   public Page<ProductResponse> findAllProducts(String name, Boolean inStock, int page, int size,
       String sortBy, String sortDirection) {
-    Sort.Direction direction = sortDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+    Sort.Direction direction =
+        sortDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
     Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
     Page<Product> productsPage;
 
     if (inStock != null) {
       if (name != null) {
-        productsPage = inStock ? productRepository.findByNameContainingIgnoreCaseAndAmountGreaterThan(name, 0, pageable)
-            : productRepository.findByNameContainingIgnoreCaseAndAmountEquals(name, 0, pageable);
+        productsPage =
+            inStock ? productRepository.findByNameContainingIgnoreCaseAndAmountGreaterThan(name, 0,
+                pageable)
+                : productRepository.findByNameContainingIgnoreCaseAndAmountEquals(name, 0,
+                    pageable);
       } else {
         productsPage = inStock ? productRepository.findAllByAmountGreaterThan(0, pageable)
             : productRepository.findAllByAmountEquals(0, pageable);

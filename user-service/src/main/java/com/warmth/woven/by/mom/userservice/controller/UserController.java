@@ -1,5 +1,6 @@
 package com.warmth.woven.by.mom.userservice.controller;
 
+import com.warmth.woven.by.mom.userservice.dto.UserBasicInfoResponse;
 import com.warmth.woven.by.mom.userservice.dto.UserRequest;
 import com.warmth.woven.by.mom.userservice.dto.UserResponse;
 import com.warmth.woven.by.mom.userservice.service.UserService;
@@ -27,6 +28,11 @@ public class UserController {
   @GetMapping("/email/{email}")
   public UserResponse getUserByEmail(@PathVariable String email) {
     return userService.getUserByEmail(email);
+  }
+
+  @GetMapping("/basic-info/{id}")
+  public UserBasicInfoResponse getUserBasicInfoById(@PathVariable String id) {
+    return userService.getUserBasicInfoById(id);
   }
 
   @PostMapping

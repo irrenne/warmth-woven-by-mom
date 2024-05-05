@@ -1,12 +1,15 @@
 package com.warmth.woven.by.mom.productservice.model;
 
-import java.math.BigDecimal;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -30,4 +33,6 @@ public class Product {
   @Column(name = "image_url")
   private String imageUrl;
   private Integer amount;
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+  private List<ProductReview> reviews;
 }

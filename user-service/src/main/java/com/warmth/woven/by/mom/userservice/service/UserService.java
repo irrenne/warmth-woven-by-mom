@@ -1,5 +1,6 @@
 package com.warmth.woven.by.mom.userservice.service;
 
+import com.warmth.woven.by.mom.userservice.dto.UserBasicInfoResponse;
 import com.warmth.woven.by.mom.userservice.dto.UserRequest;
 import com.warmth.woven.by.mom.userservice.dto.UserResponse;
 import com.warmth.woven.by.mom.userservice.model.User;
@@ -49,5 +50,11 @@ public class UserService {
     user.setId(id);
     User savedUser = userRepository.save(user);
     return UserMapper.INSTANCE.mapUserToUserResponse(savedUser);
+  }
+
+  public UserBasicInfoResponse getUserBasicInfoById(String id) {
+    User user = userRepository.findById(id)
+        .orElse(null);
+    return UserMapper.INSTANCE.mapUserToUserBasicInfoResponse(user);
   }
 }

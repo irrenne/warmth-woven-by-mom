@@ -1,5 +1,6 @@
 package com.warmth.woven.by.mom.userservice.util.mapper;
 
+import com.warmth.woven.by.mom.userservice.dto.UserBasicInfoResponse;
 import com.warmth.woven.by.mom.userservice.dto.UserRequest;
 import com.warmth.woven.by.mom.userservice.dto.UserResponse;
 import com.warmth.woven.by.mom.userservice.model.User;
@@ -15,4 +16,6 @@ public interface UserMapper {
 
   @Mapping(target = "password", source = "password")
   UserResponse mapUserToUserResponse(User user);
+
+  UserBasicInfoResponse mapUserToUserBasicInfoResponse(User user);
 }

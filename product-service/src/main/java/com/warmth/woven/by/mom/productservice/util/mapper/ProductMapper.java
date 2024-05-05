@@ -14,6 +14,7 @@ public interface ProductMapper {
 
   ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
+  @Mapping(target = "reviews", ignore = true)
   Product mapProductRequestToProduct(ProductRequest productRequest);
 
   @Mapping(target = "inStock", expression = "java(mapAmountToInStock(product.getAmount()))")
