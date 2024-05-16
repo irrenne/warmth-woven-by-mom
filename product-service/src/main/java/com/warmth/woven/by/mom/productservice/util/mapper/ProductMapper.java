@@ -6,6 +6,7 @@ import com.warmth.woven.by.mom.productservice.model.Product;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 
@@ -19,6 +20,11 @@ public interface ProductMapper {
 
   @Mapping(target = "inStock", expression = "java(mapAmountToInStock(product.getAmount()))")
   ProductResponse mapProductToProductResponse(Product product);
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "reviews", ignore = true)
+  void mapProductRequestToProductUpdate(@MappingTarget Product product,
+      ProductRequest productRequest);
 
   List<ProductResponse> mapProductsToProductsResponse(List<Product> products);
 

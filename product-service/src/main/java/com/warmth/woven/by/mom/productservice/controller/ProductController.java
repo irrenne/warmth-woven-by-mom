@@ -49,6 +49,13 @@ public class ProductController {
     return productService.getProductInStock(productId, quantity);
   }
 
+  @PutMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public ProductResponse updateProduct(@PathVariable Long id,
+      @RequestBody ProductRequest productRequest) {
+    return productService.updateProduct(id, productRequest);
+  }
+
   @PutMapping("/update/{id}")
   @ResponseStatus(HttpStatus.OK)
   public ProductResponse setProductNotInStock(@PathVariable Long id,

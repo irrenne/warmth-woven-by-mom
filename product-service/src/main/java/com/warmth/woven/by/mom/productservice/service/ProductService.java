@@ -42,6 +42,14 @@ public class ProductService {
     return product.getAmount() >= quantity;
   }
 
+  public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
+    Product product = productRepository.findById(id).orElseThrow();
+    ProductMapper.INSTANCE.mapProductRequestToProductUpdate(product, productRequest);
+    Product savedProduct = productRepository.save(product);
+    log.info("Product {} was updated: {}", savedProduct.getId(), savedProduct);
+    return ProductMapper.INSTANCE.mapProductToProductResponse(savedProduct);
+  }
+
   public ProductResponse decreaseProductAmount(Long id, Integer quantity) {
     Product product = productRepository.findById(id).orElseThrow();
     if (product.getAmount() >= quantity) {

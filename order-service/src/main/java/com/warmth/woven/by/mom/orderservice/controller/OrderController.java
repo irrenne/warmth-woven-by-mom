@@ -41,7 +41,7 @@ public class OrderController {
 
   @GetMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public OrderResponse getOrderById(@PathVariable Long id) {
+  public OrderResponse getOrderById(@PathVariable String id) {
     return orderService.getById(id);
   }
 
@@ -67,9 +67,15 @@ public class OrderController {
     return orderService.findAllOrders(status, page, size, sortBy, sortDirection);
   }
 
+  @GetMapping("/all")
+  @ResponseStatus(HttpStatus.OK)
+  public List<OrderResponse> getOrders(){
+    return orderService.getOrders();
+  }
+
   @PutMapping("/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public OrderResponse updateOrderStatus(@PathVariable Long id,
+  public OrderResponse updateOrderStatus(@PathVariable String id,
       @RequestBody OrderRequest orderRequest) {
     return orderService.updateOrder(id, orderRequest);
   }

@@ -13,11 +13,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderResponse {
 
-  private Long id;
+  private String id;
   private List<OrderItemDTO> items;
   private BigDecimal price;
   private Boolean withShipping;
   private OrderStatus status;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
+  private String userId;
 }

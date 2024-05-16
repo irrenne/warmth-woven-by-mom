@@ -1,6 +1,7 @@
 package com.warmth.woven.by.mom.orderservice.model;
 
 import com.warmth.woven.by.mom.orderservice.enums.OrderStatus;
+import com.warmth.woven.by.mom.orderservice.util.OrderIdGeneratorUtil;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,8 +21,7 @@ import lombok.Setter;
 public class Order {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private String id;
   private BigDecimal price;
   private Boolean withShipping;
   private String userId;
@@ -44,6 +44,7 @@ public class Order {
     LocalDateTime now = LocalDateTime.now();
     this.createdAt = now;
     this.updatedAt = now;
+    this.id = OrderIdGeneratorUtil.generateOrderId(now);
   }
 
   @PreUpdate

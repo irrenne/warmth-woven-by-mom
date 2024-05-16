@@ -75,17 +75,24 @@ public class OrderService {
         .toList();
   }
 
-  public OrderResponse getById(Long id) {
+  public OrderResponse getById(String id) {
     Order order = orderRepository.findById(id).orElseThrow();
     return OrderMapper.INSTANCE.mapOrderToOrderResponse(order);
   }
 
-  public OrderResponse updateOrder(Long id, OrderRequest orderRequest) {
+  public OrderResponse updateOrder(String id, OrderRequest orderRequest) {
     Order order = orderRepository.findById(id).orElseThrow();
     order.setStatus(orderRequest.getStatus());
     Order updatedOrder = orderRepository.save(order);
     log.info("Order {} status is changed to {}", updatedOrder.getId(), updatedOrder.getStatus());
     return OrderMapper.INSTANCE.mapOrderToOrderResponse(updatedOrder);
+  }
+
+  public List<OrderResponse> getOrders() {
+    List<Order> orders = orderRepository.findAll();
+    return orders.stream()
+        .map(OrderMapper.INSTANCE::mapOrderToOrderResponse)
+        .toList();
   }
 
   public Page<OrderResponse> findAllOrdersByUserId(String userId, OrderStatus status, int page,
