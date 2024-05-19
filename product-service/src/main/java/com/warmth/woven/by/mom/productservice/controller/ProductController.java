@@ -56,9 +56,16 @@ public class ProductController {
     return productService.updateProduct(id, productRequest);
   }
 
+  @PutMapping("/restock/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  public ProductResponse restockProductAmount(@PathVariable Long id,
+      @RequestParam Integer quantity) {
+    return productService.restockProductAmount(id, quantity);
+  }
+
   @PutMapping("/update/{id}")
   @ResponseStatus(HttpStatus.OK)
-  public ProductResponse setProductNotInStock(@PathVariable Long id,
+  public ProductResponse decreaseProductAmount(@PathVariable Long id,
       @RequestParam Integer quantity) {
     return productService.decreaseProductAmount(id, quantity);
   }

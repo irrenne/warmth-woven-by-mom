@@ -84,6 +84,11 @@ public class OrderService {
     Order order = orderRepository.findById(id).orElseThrow();
     order.setStatus(orderRequest.getStatus());
     Order updatedOrder = orderRepository.save(order);
+    if (updatedOrder.getStatus().equals(OrderStatus.CANCELED)) {
+      for (OrderItemDTO item : orderRequest.getItems()) {
+        productClient.restockProductAmount(item.getProductId(), item.getQuantity());
+      }
+    }
     log.info("Order {} status is changed to {}", updatedOrder.getId(), updatedOrder.getStatus());
     return OrderMapper.INSTANCE.mapOrderToOrderResponse(updatedOrder);
   }

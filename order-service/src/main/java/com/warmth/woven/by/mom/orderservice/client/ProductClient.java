@@ -18,4 +18,7 @@ public interface ProductClient {
 
   @GetMapping("/api/product/price/{productId}")
   BigDecimal getProductPriceById(@PathVariable Long productId);
+
+  @PutMapping("/api/product/restock/{id}")
+  void restockProductAmount(@PathVariable Long id, @RequestParam Integer quantity);
 }

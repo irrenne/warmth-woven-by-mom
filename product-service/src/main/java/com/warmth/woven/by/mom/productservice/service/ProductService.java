@@ -50,6 +50,16 @@ public class ProductService {
     return ProductMapper.INSTANCE.mapProductToProductResponse(savedProduct);
   }
 
+  public ProductResponse restockProductAmount(Long id, Integer quantity) {
+    Product product = productRepository.findById(id).orElseThrow();
+
+    product.setAmount(product.getAmount() + quantity);
+
+    Product savedProduct = productRepository.save(product);
+    log.info("Product {} amount restocked to {}", savedProduct.getId(), savedProduct.getAmount());
+    return ProductMapper.INSTANCE.mapProductToProductResponse(savedProduct);
+  }
+
   public ProductResponse decreaseProductAmount(Long id, Integer quantity) {
     Product product = productRepository.findById(id).orElseThrow();
     if (product.getAmount() >= quantity) {
