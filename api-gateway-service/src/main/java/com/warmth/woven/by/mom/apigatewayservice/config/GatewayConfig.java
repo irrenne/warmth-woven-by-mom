@@ -23,16 +23,28 @@ public class GatewayConfig {
   public RouteLocator routes(RouteLocatorBuilder builder) {
     return builder.routes()
         .route("PRODUCT-SERVICE", r -> r.path("/api/product/**")
-            .filters(f -> f.filter(filter))
+            .filters(f -> f.filter(filter)
+                .circuitBreaker(config -> config
+                    .setName("productServiceCircuitBreaker")
+                    .setFallbackUri("forward:/productServiceFallback")))
             .uri("lb://PRODUCT-SERVICE"))
         .route("ORDER-SERVICE", r -> r.path("/api/order/**")
-            .filters(f -> f.filter(filter))
+            .filters(f -> f.filter(filter)
+                .circuitBreaker(config -> config
+                    .setName("orderServiceCircuitBreaker")
+                    .setFallbackUri("forward:/orderServiceFallback")))
             .uri("lb://ORDER-SERVICE"))
         .route("USER-SERVICE", r -> r.path("/api/users/**")
-            .filters(f -> f.filter(filter))
+            .filters(f -> f.filter(filter)
+                .circuitBreaker(config -> config
+                    .setName("userServiceCircuitBreaker")
+                    .setFallbackUri("forward:/userServiceFallback")))
             .uri("lb://USER-SERVICE"))
         .route("AUTH-SERVICE", r -> r.path("/auth/**")
-            .filters(f -> f.filter(filter))
+            .filters(f -> f.filter(filter)
+                .circuitBreaker(config -> config
+                    .setName("authServiceCircuitBreaker")
+                    .setFallbackUri("forward:/userServiceFallback")))
             .uri("lb://AUTH-SERVICE"))
         .build();
   }

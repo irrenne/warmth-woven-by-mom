@@ -6,10 +6,11 @@ import com.warmth.woven.by.mom.authenticationservice.dto.AuthResponse;
 import com.warmth.woven.by.mom.authenticationservice.dto.UserRequest;
 import com.warmth.woven.by.mom.authenticationservice.dto.UserResponse;
 import com.warmth.woven.by.mom.authenticationservice.util.JwtUtil;
+
+import jakarta.ws.rs.NotAuthorizedException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -48,15 +49,16 @@ public class AuthService {
 
 
   public AuthResponse login(AuthRequest request) {
-    UserResponse user = userClient.getUserByEmail(request.getEmail());
+    UserResponse user;
+    try {
+      user = userClient.getUserByEmail(request.getEmail());
+    } catch (Exception e) {
+      throw new NotAuthorizedException("Invalid email");
+    }
     log.info("password " + user.getPassword());
     if (user.getPassword() == null || user.getPassword().isEmpty() || !BCrypt.checkpw(
         request.getPassword(), user.getPassword())) {
-      try {
-        throw new AuthenticationException("Invalid email/password");
-      } catch (AuthenticationException e) {
-        throw new RuntimeException(e);
-      }
+      throw new NotAuthorizedException("Invalid email/password");
     }
 
     String accessToken = jwtUtil.generate(user.getId(), user.getRole(), "ACCESS");
