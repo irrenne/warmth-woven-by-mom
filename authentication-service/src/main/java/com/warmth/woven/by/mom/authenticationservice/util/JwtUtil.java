@@ -1,4 +1,4 @@
-package com.warmth.woven.by.mom.authenticationservice.service;
+package com.warmth.woven.by.mom.authenticationservice.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -50,9 +50,5 @@ public class JwtUtil {
                 .setExpiration(exp)
                 .signWith(key)
                 .compact();
-    }
-
-    private boolean isExpired(String token) {
-        return getExpirationDate(token).before(new Date());
     }
 }

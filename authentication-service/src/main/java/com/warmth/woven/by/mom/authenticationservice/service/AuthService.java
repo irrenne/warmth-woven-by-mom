@@ -5,6 +5,7 @@ import com.warmth.woven.by.mom.authenticationservice.dto.AuthRequest;
 import com.warmth.woven.by.mom.authenticationservice.dto.AuthResponse;
 import com.warmth.woven.by.mom.authenticationservice.dto.UserRequest;
 import com.warmth.woven.by.mom.authenticationservice.dto.UserResponse;
+import com.warmth.woven.by.mom.authenticationservice.util.JwtUtil;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,6 @@ public class AuthService {
   private final JwtUtil jwtUtil;
 
   public AuthResponse register(AuthRequest request) {
-    //do validation if user exists in DB
     String userId = UUID.randomUUID().toString();
     request.setPassword(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt()));
     UserRequest userRequest = UserRequest.builder()
@@ -48,12 +48,10 @@ public class AuthService {
 
 
   public AuthResponse login(AuthRequest request) {
-    // Authenticate the user using the provided credentials
     UserResponse user = userClient.getUserByEmail(request.getEmail());
     log.info("password " + user.getPassword());
-    if (user == null || user.getPassword() == null || user.getPassword().isEmpty()
-        || !BCrypt.checkpw(request.getPassword(), user.getPassword())) {
-      // User authentication failed
+    if (user.getPassword() == null || user.getPassword().isEmpty() || !BCrypt.checkpw(
+        request.getPassword(), user.getPassword())) {
       try {
         throw new AuthenticationException("Invalid email/password");
       } catch (AuthenticationException e) {
@@ -61,7 +59,6 @@ public class AuthService {
       }
     }
 
-    // Generate JWT tokens for the authenticated user
     String accessToken = jwtUtil.generate(user.getId(), user.getRole(), "ACCESS");
     String refreshToken = jwtUtil.generate(user.getId(), user.getRole(), "REFRESH");
 
