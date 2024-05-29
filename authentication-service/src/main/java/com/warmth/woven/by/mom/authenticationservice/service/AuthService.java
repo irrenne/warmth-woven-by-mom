@@ -55,7 +55,6 @@ public class AuthService {
     } catch (Exception e) {
       throw new NotAuthorizedException("Invalid email");
     }
-    log.info("password " + user.getPassword());
     if (user.getPassword() == null || user.getPassword().isEmpty() || !BCrypt.checkpw(
         request.getPassword(), user.getPassword())) {
       throw new NotAuthorizedException("Invalid email/password");

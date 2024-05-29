@@ -24,12 +24,12 @@ public class ProductReviewController {
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public ProductReviewResponse createProductReview(@RequestBody ProductReviewRequest productRequest) {
-    return productReviewService.createProduct(productRequest);
+    return productReviewService.createProductReview(productRequest);
   }
 
   @GetMapping("/product/{productId}")
   @ResponseStatus(HttpStatus.OK)
   public List<ProductReviewResponse> getProductReviewsByProductId(@PathVariable Long productId){
-    return productReviewService.getProductsByProductIdId(productId);
+    return productReviewService.getProductReviewsByProductId(productId);
   }
 }

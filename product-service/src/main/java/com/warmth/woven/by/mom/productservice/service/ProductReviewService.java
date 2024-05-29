@@ -17,7 +17,7 @@ public class ProductReviewService {
 
   private final ProductReviewRepository productReviewRepository;
 
-  public ProductReviewResponse createProduct(ProductReviewRequest productReviewRequest) {
+  public ProductReviewResponse createProductReview(ProductReviewRequest productReviewRequest) {
     ProductReview productReview = ProductReviewMapper.INSTANCE.mapProductReviewRequestToProductReview(
         productReviewRequest);
     ProductReview savedProductReview = productReviewRepository.save(productReview);
@@ -25,7 +25,7 @@ public class ProductReviewService {
     return ProductReviewMapper.INSTANCE.mapProductReviewToProductReviewResponse(savedProductReview);
   }
 
-  public List<ProductReviewResponse> getProductsByProductIdId(Long productId) {
+  public List<ProductReviewResponse> getProductReviewsByProductId(Long productId) {
     var productReview = productReviewRepository.findAllByProductId(productId);
     return ProductReviewMapper.INSTANCE.mapProductReviewsToProductReviewsResponse(productReview);
   }
